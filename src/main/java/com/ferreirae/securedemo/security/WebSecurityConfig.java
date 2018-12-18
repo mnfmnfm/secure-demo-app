@@ -1,5 +1,7 @@
 package com.ferreirae.securedemo.security;
 
+//import com.ferreirae.securedemo.appuser.UserDetailsServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -12,6 +14,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    // We'll comment in these lines tomorrow, when we add a UserDetailsServiceImpl!
+    // @Autowired
+    // private UserDetailsServiceImpl userDetailsService;
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        return bCryptPasswordEncoder;
+    }
 
     @Override
     protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
@@ -29,24 +41,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().disable()
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/admin/**").hasRole("ADMIN")
-                    .antMatchers("/anonymous*").anonymous()
-                    .antMatchers("/login*").permitAll()
-                    .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                    .loginPage("/login.html")
-                    .loginProcessingUrl("/perform_login")
-                    .defaultSuccessUrl("/",true)
-                    .failureUrl("/login.html?error=true")
-                .and()
-                .logout()
-                    .logoutUrl("/perform_logout")
-                    .deleteCookies("JSESSIONID");
-    }
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+                .antMatchers("/*").permitAll();
     }
 }
