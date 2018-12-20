@@ -9,22 +9,16 @@
         <div>
             <label for="fullName">Full name</label>
             <input name="fullName" id="fullName"/>
-            <p th:each="error: ${#fields.errors('fullName')}"
-               th:text="${error}">Validation error</p>
         </div>
         <div>
             <label for="username">Username</label>
             <input type="text" id="username" name="username"/>
-            <p th:each="error : ${#fields.errors('username')}"
-               th:text="${error}">Validation error</p>
         </div>
         <div>
             <label for="password">password</label>
             <input type="password" id="password" name="password" />
-            <p th:each="error : ${#fields.errors('password')}"
-               th:text="${error}">Validation error</p>
         </div>
-        <button type="submit" th:text="#{label.form.submit}">submit</button>
+        <button type="submit">submit</button>
     </form>
 </body>
 </html>
